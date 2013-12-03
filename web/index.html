@@ -124,153 +124,169 @@
 
 
         <script type="text/javascript">
-          var x = 1;
-          var y = 1;
-          var obstaculos = new Array(10);
+            var x = 1;
+            var y = 1;
+            var obstaculos = new Array(10);
 
-          for (i = 1; i < 11; i++) {
+            for (i = 1; i < 11; i++) {
 
-              obstaculos[i] = new Array(10);
+                obstaculos[i] = new Array(10);
 
-          }
+            }
 
-          obstaculos[2][2] = 1;
-          obstaculos[3][2] = 1;
-          obstaculos[4][2] = 1;
-          obstaculos[6][2] = 1;
-          obstaculos[7][2] = 1;
-          obstaculos[8][2] = 1;
-          obstaculos[9][2] = 1;
-          obstaculos[9][4] = 1;
-          obstaculos[8][4] = 1;
-          obstaculos[8][5] = 1;
-          obstaculos[6][4] = 1;
-          obstaculos[5][4] = 1;
-          obstaculos[5][5] = 1;
-          obstaculos[5][6] = 1;
-          obstaculos[6][6] = 1;
-          obstaculos[6][5] = 1;
-          obstaculos[6][4] = 1;
-          obstaculos[3][4] = 1;
-          obstaculos[3][5] = 1;
-          obstaculos[3][6] = 1;
-          obstaculos[3][7] = 1;
-          obstaculos[3][8] = 1;
-          obstaculos[2][9] = 1;
-          obstaculos[1][7] = 1;
-          obstaculos[1][6] = 1;
-          obstaculos[2][9] = 1;
-          obstaculos[5][9] = 1;
-          obstaculos[6][9] = 1;
-          obstaculos[7][9] = 1;
-          obstaculos[8][7] = 1;
-          obstaculos[9][7] = 1;
-          obstaculos[8][9] = 1;
-          obstaculos[9][9] = 1;
-          obstaculos[6][8] = 1;
-
-
-          $(document).ready(function() {
+            obstaculos[2][2] = 1;
+            obstaculos[3][2] = 1;
+            obstaculos[4][2] = 1;
+            obstaculos[6][2] = 1;
+            obstaculos[7][2] = 1;
+            obstaculos[8][2] = 1;
+            obstaculos[9][2] = 1;
+            obstaculos[9][4] = 1;
+            obstaculos[8][4] = 1;
+            obstaculos[8][5] = 1;
+            obstaculos[6][4] = 1;
+            obstaculos[5][4] = 1;
+            obstaculos[5][5] = 1;
+            obstaculos[5][6] = 1;
+            obstaculos[6][6] = 1;
+            obstaculos[6][5] = 1;
+            obstaculos[6][4] = 1;
+            obstaculos[3][4] = 1;
+            obstaculos[3][5] = 1;
+            obstaculos[3][6] = 1;
+            obstaculos[3][7] = 1;
+            obstaculos[3][8] = 1;
+            obstaculos[2][9] = 1;
+            obstaculos[1][7] = 1;
+            obstaculos[1][6] = 1;
+            obstaculos[2][9] = 1;
+            obstaculos[5][9] = 1;
+            obstaculos[6][9] = 1;
+            obstaculos[7][9] = 1;
+            obstaculos[8][7] = 1;
+            obstaculos[9][7] = 1;
+            obstaculos[8][9] = 1;
+            obstaculos[9][9] = 1;
+            obstaculos[6][8] = 1;
 
 
+            $(document).ready(function() {
 
 
+                /*    $("#ghost1").animate(function() {
+                 
+                 $(this).spRandom({
+                 top: 50,
+                 bottom: 400,
+                 left: 50, right: 520, speed: 4000, pause: 3000})
+                 
+                 
+                 });*/
+
+                function aleatorio() {
+                    var nh = Math.floor(Math.random() * h);
+                    var nw = Math.floor(Math.random() * w);
+                    return [nh, nw];
+                }
+                ;
+
+                function animateDiv() {
+                    var newmove = aleatorio();
+                    $('#ghost1').animate({top: newmove[0], left: newmove[1]}, function() {
+                        animateDiv();
+                    });
+                }
+                ;
+
+                $("body").keypress(function(e) {
 
 
+                    switch (e.which)
+                    {
 
-              $("body").keypress(function(e) {
+                        case 100: //pulsamos 'D'
 
+                            if (x < 10)
+                            {
+                                //alert(obstaculos[x+1][y]);
+                                if (obstaculos[x + 1][y] != 1){
+                                    $('#pac').animate({"left": "+=1em"}, 500);
+                                    $('#cerrado').animate({opacity: 1}, 200, function() {
+                                        $('#izquierda').css("opacity", "0");
+                                        $('#arriba').css("opacity", "0");
+                                        $('#abajo').css("opacity", "0");
+                                        $('#derecha').css("opacity", "1");
+                                        $('#cerrado').animate({opacity: 0}, 200);
+                                    });
+                                    x += 1;
+                                    $('#equis').val(x);
+                                }
+                            }
+                            break;
+                        case 97: //pulsamos 'A'
 
-                  switch (e.which)
-                  {
+                            if (x > 1)
+                            {
+                                if (obstaculos[x - 1][y] != 1)
+                                {
 
-                      case 100: //pulsamos 'D'
+                                    $('#pac').animate({"left": "-=1em"}, 500);
+                                    $('#cerrado').animate({opacity: 1}, 200, function() {
+                                        $('#derecha').css("opacity", "0");
+                                        $('#arriba').css("opacity", "0");
+                                        $('#abajo').css("opacity", "0");
+                                        $('#izquierda').css("opacity", "1");
+                                        $('#cerrado').animate({opacity: 0}, 200);
+                                    });
+                                    x -= 1;
+                                    $('#equis').val(x);
+                                }
+                            }
 
-                          if (x < 10)
-                          {
-                              //alert(obstaculos[x+1][y]);
-                              if (obstaculos[x + 1][y] != 1)
-                              {
-                                  $('#pac').animate({"left": "+=1em"}, 500);
-                                  $('#cerrado').animate({opacity: 1}, 200, function() {
-                                      $('#izquierda').css("opacity", "0");
-                                      $('#arriba').css("opacity", "0");
-                                      $('#abajo').css("opacity", "0");
-                                      $('#derecha').css("opacity", "1");
-                                      $('#cerrado').animate({opacity: 0}, 200);
-                                  });
-                                  x += 1;
-                                  $('#equis').val(x);
-                              }
-                          }
-                          break;
+                            break;
+                        case 115: //pulsamos 'S'
 
-                      case 97: //pulsamos 'A'
+                            if (y < 10)
+                            {
+                                if (obstaculos[x][y + 1] != 1)
+                                {
+                                    $('#pac').animate({"top": "+=1em"}, 500);
+                                    $('#cerrado').animate({opacity: 1}, 200, function() {
+                                        $('#izquierda').css("opacity", "0");
+                                        $('#arriba').css("opacity", "0");
+                                        $('#derecha').css("opacity", "0");
+                                        $('#abajo').css("opacity", "1");
+                                        $('#cerrado').animate({opacity: 0}, 200);
+                                    });
+                                    y += 1;
+                                    $('#ygriega').val(y);
+                                }
+                            }
 
-                          if (x > 1)
-                          {
-                              if (obstaculos[x - 1][y] != 1)
-                              {
+                            break;
+                        case 119: //pulsamos 'W'
 
-                                  $('#pac').animate({"left": "-=1em"}, 500);
-                                  $('#cerrado').animate({opacity: 1}, 200, function() {
-                                      $('#derecha').css("opacity", "0");
-                                      $('#arriba').css("opacity", "0");
-                                      $('#abajo').css("opacity", "0");
-                                      $('#izquierda').css("opacity", "1");
-                                      $('#cerrado').animate({opacity: 0}, 200);
-                                  });
-                                  x -= 1;
-                                  $('#equis').val(x);
-                              }
-                          }
+                            if (y > 1)
+                            {
+                                if (obstaculos[x][y - 1] != 1)
+                                {
+                                    $('#pac').animate({"top": "-=1em"}, 500);
+                                    $('#cerrado').animate({opacity: 1}, 200, function() {
+                                        $('#izquierda').css("opacity", "0");
+                                        $('#derecha').css("opacity", "0");
+                                        $('#abajo').css("opacity", "0");
+                                        $('#arriba').css("opacity", "1");
+                                        $('#cerrado').animate({opacity: 0}, 200);
+                                    });
+                                    y -= 1;
+                                    $('#ygriega').val(y);
+                                }
+                            }
 
-                          break;
-
-                      case 115: //pulsamos 'S'
-
-                          if (y < 10)
-                          {
-                              if (obstaculos[x][y + 1] != 1)
-                              {
-                                  $('#pac').animate({"top": "+=1em"}, 500);
-                                  $('#cerrado').animate({opacity: 1}, 200, function() {
-                                      $('#izquierda').css("opacity", "0");
-                                      $('#arriba').css("opacity", "0");
-                                      $('#derecha').css("opacity", "0");
-                                      $('#abajo').css("opacity", "1");
-                                      $('#cerrado').animate({opacity: 0}, 200);
-                                  });
-                                  y += 1;
-                                  $('#ygriega').val(y);
-                              }
-                          }
-
-                          break;
-
-                      case 119: //pulsamos 'W'
-
-                          if (y > 1)
-                          {
-                              if (obstaculos[x][y - 1] != 1)
-                              {
-                                  $('#pac').animate({"top": "-=1em"}, 500);
-                                  $('#cerrado').animate({opacity: 1}, 200, function() {
-                                      $('#izquierda').css("opacity", "0");
-                                      $('#derecha').css("opacity", "0");
-                                      $('#abajo').css("opacity", "0");
-                                      $('#arriba').css("opacity", "1");
-                                      $('#cerrado').animate({opacity: 0}, 200);
-                                  });
-                                  y -= 1;
-                                  $('#ygriega').val(y);
-                              }
-                          }
-
-                  }
-              });
-
-          });
+                    }
+                }
+                );
+            });
 
 
         </script>	
@@ -293,6 +309,7 @@
             </div>
 
             <div id="obstaculo1">
+                <img id="ghost1" src="img/ghost.gif" />
             </div>
 
             <div id="obstaculo2">
